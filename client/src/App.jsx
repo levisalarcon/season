@@ -1,4 +1,6 @@
 import React from 'react';
+import DisplaySeason from './components/DisplaySeason';
+import Spinner from './components/Spinner';
 
 class App extends React.Component{
 
@@ -26,24 +28,19 @@ class App extends React.Component{
 
 
     render() {
+       return this._renderMainContent()
+    }
+
+    _renderMainContent() {
         if(this.state.error && (!this.state.longitude || this.state.latitude)){
             return <div>Error: {this.state.error}</div>
         }
         
         if(!this.state.error && this.state.position.latitude && this.state.position.longitude){
-           return this._renderPosition();
+           return  <DisplaySeason latitude={this.state.position.latitude} />
         }
 
-        return <span>Loading...</span>
-    }
-
-    _renderPosition() {
-        return (
-            <div>
-                <p>longitude: {this.state.position.longitude}</p>
-                <p>latitude: {this.state.position.latitude}</p>
-            </div>
-        )
+        return <Spinner action="waiting for permissions..." />
     }
            
 }
